@@ -1,0 +1,23 @@
+.boardrow{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.characterbox{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: .5px solid grey;
+    margin: 2px;
+    font-size: large;
+    font-weight: 900;
+}
+
+.board{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
