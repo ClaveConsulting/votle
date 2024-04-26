@@ -1,6 +1,6 @@
 
 
 export interface GameSetup {
-  numPlayers: number;
+  playerNames: string[];
   answer: string;
 }
