@@ -26,15 +26,23 @@ export function Game({ setup }: { setup: GameSetup }) {
       guesses.map(({ guess }) => guess.split(""))
     );
 
+    const nextScoreData = getScoreData(setup.answer.split(""), guess);
     setScoreData((prev) => [
       ...prev,
       {
         round,
         guesses,
         guess,
-        scoreData: getScoreData(setup.answer.split(""), guess),
+        scoreData: nextScoreData,
       },
     ]);
+
+    const hasWon = nextScoreData.every(c => c === "c");
+    if (hasWon) alert("YAY");
+
+    if (round >= 5) {
+      alert(`Game Over. Answer was: ${setup.answer}`);
+    }
   }
 
   const isLast = currentPlayerIndex == setup.playerNames.length - 1;
