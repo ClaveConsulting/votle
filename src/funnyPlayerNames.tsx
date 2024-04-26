@@ -1,0 +1,58 @@
+import { getRandomWord } from "./getRandomWord";
+
+export const funnyPlayerNames = [
+  "SirSpamsalot",
+  "CaptainQuack",
+  "DrBoomstick",
+  "LadyLlama",
+  "ProfPenguinpants",
+  "BaronBlunder",
+  "NotoriousNoob",
+  "MajorMayhem",
+  "CountQuackula",
+  "SergeantSnicker",
+  "MademoiselleMayhem",
+  "GeneralGiggles",
+  "LordFluff",
+  "CommanderChuckles",
+  "PrincessPow",
+  "DukeDerp",
+  "SquireSquishy",
+  "AdmiralWaddle",
+  "JesterJuggernaut",
+  "MistressMischief",
+  "CaptainClumsy",
+  "KingKooky",
+  "AgentAwkward",
+  "MissMeme",
+  "EmperorEpicFail",
+  "ColonelChuckle",
+  "BaronessBumble",
+  "MrMalfunction",
+  "QueenQuirky",
+  "LaughingLuchador",
+  "LadyLoophole",
+  "ProfPratfall",
+  "GeneralGuffaw",
+  "TicklishTitan",
+  "MadameMishap",
+  "LordGiggle",
+  "AdmiralOopsie",
+  "MasterMayhem",
+  "CaptainChaos",
+  "DuchessDisaster",
+  "SirSlapstick",
+  "BaronBumble",
+  "DrDizzy",
+  "PrincessPrank",
+  "CountClutz",
+  "GiggleGladiator",
+  "LadyLunacy",
+  "MajorMistake",
+  "DukeDork"
+];
+
+
+export function giveMeAPlayerName() {
+    return getRandomWord(funnyPlayerNames);
+}

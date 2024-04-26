@@ -1,13 +1,37 @@
 import { useState } from "react";
 import { GameSetup } from "./GameSetup";
-import { getRandomWord, wordPool } from "./words";
+import { wordPool } from "./words";
+import { getRandomWord } from "./getRandomWord";
+import { funnyPlayerNames } from "./funnyPlayerNames";
+
+function usePlayerNamePool() {
+  const [names, setNames] = useState(funnyPlayerNames);
+
+  return {
+    give: (n: number) => {
+      let leftovers = names;
+      const result = [];
+
+      for (let i = 0; i < n; i++) {
+        const next = getRandomWord(leftovers);
+        result.push(next);
+        leftovers = leftovers.filter((n) => n !== next);
+      }
+
+      setNames(leftovers);
+
+      return result
+    },
+  };
+}
 
 export function CreateGame({
   onCreate,
 }: {
   onCreate(gameSetup: GameSetup): void;
 }) {
-  const [playerNames, setPlayerNames] = useState(["Boogie", "Pooh"]);
+  const names = usePlayerNamePool();
+  const [playerNames, setPlayerNames] = useState(() => names.give(2));
   return (
     <form
       onSubmit={(e) => {
@@ -24,20 +48,28 @@ export function CreateGame({
             <li key={i}>
               <label>
                 <span>Player #{i}</span>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) =>
-                  setPlayerNames([
-                    ...playerNames.slice(0, i),
-                    e.target.value,
-                    ...playerNames.slice(i + 1),
-                  ])
-                }
-              /></label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) =>
+                    setPlayerNames([
+                      ...playerNames.slice(0, i),
+                      e.target.value,
+                      ...playerNames.slice(i + 1),
+                    ])
+                  }
+                />
+              </label>
             </li>
           ))}
-          <button type="button" onClick={() => {setPlayerNames(prev => [...prev, "Clown"])}}>(+) Add player</button>
+          <button
+            type="button"
+            onClick={() => {
+              setPlayerNames((prev) => [...prev, ...names.give(1)]);
+            }}
+          >
+            (+) Add player
+          </button>
         </ul>
         <button
           disabled={

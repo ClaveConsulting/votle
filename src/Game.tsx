@@ -7,6 +7,7 @@ interface Guess {
   player: number;
   guess: string;
 }
+
 export function Game({ setup }: { setup: GameSetup }) {
   const [guess, setGuess] = useState("");
   const [round, setRound] = useState(0);

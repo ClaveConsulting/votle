@@ -2,6 +2,8 @@
 // "p" is correct letter
 // "x" is wrong letter
 
+import { getRandomInt } from "./getRandomInt";
+
 export type Scored = "c" | "p" | "x";
 export type ScoreData = [Scored, Scored, Scored, Scored, Scored];
 export const getScoreData = (
@@ -35,16 +37,11 @@ export const getScoreData = (
 return result;
 };
 
-export const getRandomWord = (wordPool: string[]) => {
-  return wordPool[getRandomInt(wordPool.length)];
-};
-
 export const getMergedGuessWord = (guesses: string[][]) => {
   const result = ["", "", "", "", ""];
 
   for (let columnIndex = 0; columnIndex < 5; columnIndex++) {
     const guessesForPosition = guesses.map((guess) => guess[columnIndex]);
-    console.log(guessesForPosition);
     result[columnIndex] = getGuessLetter(guessesForPosition);
   }
   return result;
@@ -52,10 +49,6 @@ export const getMergedGuessWord = (guesses: string[][]) => {
 
 const getGuessLetter = (letters: string[]) => {
   return letters[getRandomInt(letters.length)];
-};
-
-const getRandomInt = (max: number) => {
-  return Math.floor(Math.random() * max);
 };
 
 export const wordPool = () => [
