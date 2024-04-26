@@ -1,4 +1,3 @@
-import React from "react";
 import "./Board.css";
 import { Scored, getScoreData } from "./words";
 
@@ -37,6 +36,7 @@ const Board = ({ answer, mergedGuesses }: { answer: string[], mergedGuesses: str
             {row.map((letter, colIndex) => {
               return (
                 <div
+                  key={colIndex}
                   className="characterbox"
                   style={{
                     backgroundColor: getColor(scoreDataForRow[colIndex]),

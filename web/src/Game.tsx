@@ -32,7 +32,7 @@ export function Game({ setup }: { setup: GameSetup }) {
     ]);
   }
 
-  const isLast = currentPlayerIndex == setup.numPlayers - 1;
+  const isLast = currentPlayerIndex == setup.playerNames.length - 1;
   function onNextPlayer(guesses: Guess[]) {
     if (!isLast) {
       setCurrentPlayerIndex((prev) => prev + 1);
@@ -40,6 +40,8 @@ export function Game({ setup }: { setup: GameSetup }) {
       onNextRound(guesses);
     }
   }
+
+  const activePlayerIndex = prevGuesses.length;
 
   return (
     <>
@@ -58,7 +60,9 @@ export function Game({ setup }: { setup: GameSetup }) {
         mergedGuesses={scoreData.map((c) => c.guess)}
       />
       <div className="card">
-        <h1>Round {round + 1}</h1>
+        <h1>Round {round + 1} / 6</h1>
+        <h2>Player {setup.playerNames[activePlayerIndex]}</h2>
+        <p>Players: {setup.playerNames.join(", ")}</p>
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -70,12 +74,13 @@ export function Game({ setup }: { setup: GameSetup }) {
               { player: currentPlayerIndex, guess },
             ]);
           }}
+          style={{ marginBottom: "1rem" }}
         >
           <label htmlFor="guess" style={{ display: "none" }}>
             Your guess
           </label>
           <input
-            style={{ fontFamily: "monospace", fontSize: "24px" }}
+            style={{ fontFamily: "monospace", fontSize: "24px", width: "40px" }}
             name="guess"
             id="guess"
             type="text"
@@ -84,10 +89,11 @@ export function Game({ setup }: { setup: GameSetup }) {
             pattern="[a-zA-Z]{5}"
             maxLength={5}
             minLength={5}
+            width={50}
             required
           />
           <button type="submit">
-            {isLast ? "Legg inn gjett og gå til neste runde" : "Legg inn gjett"}
+            Gjett
           </button>
         </form>
         <details>

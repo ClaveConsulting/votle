@@ -2,32 +2,52 @@ import { useState } from "react";
 import { GameSetup } from "./GameSetup";
 import { getRandomWord, wordPool } from "./words";
 
-
-export function CreateGame({ onCreate }: { onCreate(gameSetup: GameSetup): void; }) {
-  const [numPlayers, setNumPlayers] = useState(2);
+export function CreateGame({
+  onCreate,
+}: {
+  onCreate(gameSetup: GameSetup): void;
+}) {
+  const [playerNames, setPlayerNames] = useState(["Boogie", "Pooh"]);
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
         const answer = getRandomWord(wordPool());
-        onCreate({ numPlayers, answer });
+        onCreate({ playerNames, answer });
       }}
     >
       <fieldset>
         <legend>Create Game</legend>
         <label htmlFor="numPlayers">Number of players</label>
-        <select
-          id="numPLayers"
-          value={numPlayers}
-          onChange={(e) => setNumPlayers(parseFloat(e.target.value))}
-        >
-          {[2, 3, 4, 5].map((n) => (
-            <option key={n} value={n}>
-              {n} players
-            </option>
+        <ul>
+          {playerNames.map((name, i) => (
+            <li key={i}>
+              <label>
+                <span>Player #{i}</span>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) =>
+                  setPlayerNames([
+                    ...playerNames.slice(0, i),
+                    e.target.value,
+                    ...playerNames.slice(i + 1),
+                  ])
+                }
+              /></label>
+            </li>
           ))}
-        </select>
-        <button type="submit">Create Game</button>
+          <button type="button" onClick={() => {setPlayerNames(prev => [...prev, "Clown"])}}>(+) Add player</button>
+        </ul>
+        <button
+          disabled={
+            playerNames.length < 2 ||
+            !!playerNames.find((name) => name.length === 0)
+          }
+          type="submit"
+        >
+          Create Game
+        </button>
       </fieldset>
     </form>
   );
