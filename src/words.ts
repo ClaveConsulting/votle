@@ -12,15 +12,20 @@ export const getScoreData = (
   for (let index = 0; index < 5; index++) {
     const guessLetter = guess[index];
     const correctLetter = correctWord[index];
-
     if (guessLetter.toUpperCase() === correctLetter.toUpperCase()) {
       result[index] = "c";
-    } else if (correctWord.includes(guessLetter) && !(correctWord.filter(c => c.toUpperCase() === guessLetter.toUpperCase()).length > 1)) {
-      result[index] = "p";
     }
-  }
-  return result;
+}
+if (correctWord.includes(guessLetter) && !(correctWord.filter(c => c.toUpperCase() === guessLetter.toUpperCase()).length > 1)) {
+  result[index] = "p";
+}
+return result;
 };
+
+
+// ABCCD
+// ACBCD
+
 
 export const getRandomWord = (wordPool: string[]) => {
   return wordPool[getRandomInt(wordPool.length)];
