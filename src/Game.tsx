@@ -14,7 +14,7 @@ export function Game({ setup }: { setup: GameSetup }) {
   const [prevGuesses, setPrevGuesses] = useState<Guess[]>([]);
 
   const [scoreData, setScoreData] = useState<
-    { guess: string[]; scoreData: ScoreData }[]
+    { round: number; guesses: Guess[]; guess: string[]; scoreData: ScoreData }[]
   >([]);
 
   function onNextRound(guesses: Guess[]) {
@@ -28,7 +28,12 @@ export function Game({ setup }: { setup: GameSetup }) {
 
     setScoreData((prev) => [
       ...prev,
-      { guess, scoreData: getScoreData(setup.answer.split(""), guess) },
+      {
+        round,
+        guesses,
+        guess,
+        scoreData: getScoreData(setup.answer.split(""), guess),
+      },
     ]);
   }
 
@@ -92,18 +97,48 @@ export function Game({ setup }: { setup: GameSetup }) {
             width={50}
             required
           />
-          <button type="submit">
-            Gjett
-          </button>
+          <button type="submit">Gjett</button>
         </form>
         <details>
-          <summary>Reveal this round</summary>
-          {!prevGuesses.length && <span>No guesses ☹️</span>}
-          <ul>
-            {prevGuesses.map(({ player, guess }) => (
-              <li key={player}>{guess}</li>
-            ))}
-          </ul>
+          <summary>Reveal spoilers</summary>
+          <table>
+            <thead>
+              <tr>
+                <th>Round</th>
+                <th>Player</th>
+                <th>Guess</th>
+                <th>Merged</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              {scoreData.map(
+                ({ guesses, guess: mergedGuess, scoreData, round }) =>
+                  guesses.map(({ player, guess }, playerIndex) => (
+                    <tr key={`${round}/${player}`}>
+                      {playerIndex === 0 && (
+                        <td rowSpan={guesses.length}>{round}</td>
+                      )}
+                      <td>{setup.playerNames[player]}</td>
+                      <td>
+                        <code>{guess}</code>
+                      </td>
+                      {playerIndex === 0 && (<>
+                      <td  rowSpan={guesses.length}>
+                        <code>{mergedGuess.join("")}</code>
+                      </td>
+                      <td  rowSpan={guesses.length}>
+                        <code>{scoreData.join("")}</code>
+                      </td></>)}
+                    </tr>
+                  ))
+              )}
+            </tbody>
+          </table>
+          <details>
+            <summary>See answer</summary>
+            <code>ANSWER: {setup.answer}</code>
+          </details>
         </details>
       </div>
     </>

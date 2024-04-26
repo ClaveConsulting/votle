@@ -68,3 +68,13 @@ body {
     font-weight: bold;
     color: #e9e4de;
   }
+
+
+  table {
+    margin: 12px 0;
+  }
+  
+  table th, td {
+    text-align: left;
+    padding: 4px 8px;
+  }
