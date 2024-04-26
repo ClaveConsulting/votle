@@ -9,23 +9,31 @@ export const getScoreData = (
   guess: string[]
 ): ScoreData => {
   const result = ["x", "x", "x", "x", "x"] as ScoreData;
+
+  let misplaced = [];
   for (let index = 0; index < 5; index++) {
     const guessLetter = guess[index];
     const correctLetter = correctWord[index];
     if (guessLetter.toUpperCase() === correctLetter.toUpperCase()) {
       result[index] = "c";
+    } else {
+      misplaced.push(correctLetter)
     }
-}
-if (correctWord.includes(guessLetter) && !(correctWord.filter(c => c.toUpperCase() === guessLetter.toUpperCase()).length > 1)) {
-  result[index] = "p";
-}
+  }
+
+  for (let index = 0; index < 5; index++) {
+    const guessLetter = guess[index];
+
+    if(result[index] !== "c"){
+      if(misplaced.includes(guessLetter)){
+        const misplaceIndex = misplaced.findIndex(c => c === guessLetter)
+        misplaced = [...misplaced.slice(0, misplaceIndex), ...misplaced.slice(misplaceIndex + 1)];
+        result[index] = "p";
+      }
+    }
+  }
 return result;
 };
-
-
-// ABCCD
-// ACBCD
-
 
 export const getRandomWord = (wordPool: string[]) => {
   return wordPool[getRandomInt(wordPool.length)];
